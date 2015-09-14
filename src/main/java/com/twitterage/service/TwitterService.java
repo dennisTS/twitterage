@@ -1,30 +1,36 @@
 package com.twitterage.service;
 
 import com.twitterage.image.ImageProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
+import org.springframework.stereotype.Component;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class TwitterService {
 
+    @Autowired
+    private Twitter twitter;
 
-    private static Twitter twitter;
+    public TwitterService() {
+
+    }
 
     public TwitterService(Twitter twitter) {
         this.twitter = twitter;
     }
 
-    public List<Image> getProfileImagesForUserFollowings(String screenName, boolean scaled) {
+    public List<BufferedImage> getProfileImagesForUserFollowings(String screenName, boolean scaled) {
 
         List<TwitterProfile> followings = getFollowingsForProfile(screenName);
         int totalFollowingsStatusCount = getTotalFollowingsStatusCount(followings);
 
-        List<Image> followingsImages = new ArrayList<>();
+        List<BufferedImage> followingsImages = new ArrayList<>();
         for (TwitterProfile followingProfile : followings) {
             BufferedImage profileImage = loadImageForProfile(followingProfile);
 
@@ -53,9 +59,7 @@ public class TwitterService {
         if (image == null)
             return null;
 
-        BufferedImage resultImage = ImageProcessor.resizeToPercent(image, statusCount / totalStatusCount);
-
-        return resultImage;
+        return ImageProcessor.resizeToPercent(image, statusCount / totalStatusCount);
     }
 
     private BufferedImage loadImageForProfile(TwitterProfile profile) {
@@ -74,4 +78,11 @@ public class TwitterService {
         return twitter.friendOperations().getFriends(screenName);
     }
 
+    public Twitter getTwitter() {
+        return this.twitter;
+    }
+
+    public void setTwitter(Twitter twitter) {
+        this.twitter = twitter;
+    }
 }

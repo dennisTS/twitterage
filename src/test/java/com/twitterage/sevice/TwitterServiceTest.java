@@ -66,7 +66,7 @@ public class TwitterServiceTest {
         when(twitterProfile.getProfileImageUrl()).thenReturn(IMAGE_URL);
         when(ImageProcessor.downloadImage(IMAGE_URL)).thenReturn(image1);
 
-        List<Image> actImgList = twitterService.getProfileImagesForUserFollowings(USER_SCREEN_NAME, false);
+        List<? extends Image> actImgList = twitterService.getProfileImagesForUserFollowings(USER_SCREEN_NAME, false);
 
         assertEquals(expImgList, actImgList);
     }

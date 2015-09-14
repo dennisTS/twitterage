@@ -1,11 +1,12 @@
 package com.twitterage.image;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.imgscalr.Scalr;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,10 +29,8 @@ public final class ImageProcessor {
 
         } catch (MalformedURLException exception) {
             LOG.error("Could not download an image with broken URL.", exception);
-            return null;
         } catch (IOException exception) {
             LOG.error("Could not download an image.", exception);
-            return null;
         }
 
         return image;
@@ -44,9 +43,36 @@ public final class ImageProcessor {
         if (percent <= 0 || percent > 1)
             throw new IllegalArgumentException("Invalid percent value: " + percent);
 
-        int maxDimension = Integer.max(image.getWidth(), image.getHeight());
+        int maxDimension = Math.max(image.getWidth(), image.getHeight());
         int targetSize = (int) (maxDimension * percent);
 
         return Scalr.resize(image, targetSize);
+    }
+
+    public static byte[] imageToByteArray(BufferedImage image) {
+        if (image == null)
+            return null;
+
+        byte[] result = null;
+
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            ImageIO.write(image, "jpg", baos);
+            baos.flush();
+            result = baos.toByteArray();
+
+            baos.close();
+        } catch (IOException exception) {
+            LOG.error("Unknown IO exception while converting image.", exception);
+        }
+
+        return result;
+    }
+
+    public static String imageToBase64String(BufferedImage image) {
+        Base64 base64 = new Base64();
+
+        return base64.encodeAsString(imageToByteArray(image));
     }
 }
