@@ -6,7 +6,6 @@ import com.twitterage.service.TwitterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,12 +41,14 @@ public class CollageCreator {
         Collections.sort(comparableImages);
 
         BufferedImage collage = generateCollage(comparableImages);
-        //TODO test when called without parameters set
+
         return images.get(0);
     }
 
     private BufferedImage generateCollage(List<ComparableImage> comparableImages) {
-        //??????
+        Collage collage = new Collage(comparableImages);
+
+
         return null;
     }
 

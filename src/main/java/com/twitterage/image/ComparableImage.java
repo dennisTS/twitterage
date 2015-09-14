@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 public class ComparableImage implements Comparable<ComparableImage> {
 
-    private Image image;
+    private BufferedImage image;
     private int resolution;
 
     public ComparableImage() {
@@ -34,11 +34,11 @@ public class ComparableImage implements Comparable<ComparableImage> {
         this.resolution = resolution;
     }
 
-    public Image getImage() {
+    public BufferedImage getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(BufferedImage image) {
         this.image = image;
     }
 }
