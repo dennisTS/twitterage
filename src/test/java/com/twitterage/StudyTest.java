@@ -14,34 +14,35 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@WebAppConfiguration
-//@SpringApplicationConfiguration(classes = {WebConfig.class, RootConfig.class})
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class StudyTest {
 
-    private static final String ACCESS_TOKEN = "3632195477-V6FeZXDtP1HwfCbBfQGBO46fA104SoXeXEQuZAp";
-    private static final String ACCESS_SECRET = "AZbiF1Xfa7G5jF48xxlCv6VTLYrEskg3hNiaQDkrPmtge";
-    private static final String CONSUMER_KEY= "K4F39xKxLPmpd9JOqTBZsB4Eq";
-    private static final String CONSUMER_SECRET = "9vYBNBFEM9WNuykoTJzFkhcXV5FQC2OoNZE7bTsHxVnA2an3yf";
+    @Test
+    public void shouldReturnSomething() throws IOException {
+        File file = new File("source.jpeg");
+        System.out.println(file.getAbsolutePath().toString());
 
-    @Value("${jasypt.password}")
-    private String password;
+        BufferedImage image = ImageIO.read(new File("source.jpeg"));
+        BufferedImage overlay = ImageIO.read(new File("target.jpeg"));
 
-    @Value("${twitter.consumer.key}")
-    private String consumerKey;
-    @Value("${twitter.consumer.secret}")
-    private String consumerSecret;
+// create the new image, canvas size is the max. of both image sizes
+        int w = Math.max(image.getWidth(), overlay.getWidth());
+        int h = Math.max(image.getHeight(), overlay.getHeight());
+        BufferedImage combined = new BufferedImage(w*2, h*2, BufferedImage.TYPE_INT_ARGB);
 
-    @Autowired
-    Environment env;
+// paint both images, preserving the alpha channels
+        Graphics g = combined.getGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.drawImage(overlay, w, h, null);
+        g.drawImage(image, w, 0, null);
 
-  //  @Test
-    public void shouldReturnSomething() {
-        //Twitter twitter = new TwitterTemplate(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET);
-
-        //String sth = twitter.userOperations().getUserProfile("patrolpoliceua").getProfileImageUrl().toString();
-
-        System.out.println(env.getProperty("twitter.consumer.key"));
+// Save as new image
+        ImageIO.write(combined, "PNG", new File("combined.png"));
     }
 
 }
