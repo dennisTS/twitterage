@@ -36,7 +36,7 @@ public class HomeController {
 
         collageCreator.setUsername(username);
         collageCreator.setSize(new Size(size));
-        final BufferedImage collage = collageCreator.generateCollage(false);
+        final BufferedImage collage = collageCreator.generateCollage(true);
 
         final String responseStr = ImageProcessor.imageToBase64String(collage);
 
