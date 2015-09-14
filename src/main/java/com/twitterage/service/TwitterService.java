@@ -6,7 +6,6 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class TwitterService {
     public List<BufferedImage> getProfileImagesForUserFollowings(String screenName, boolean scaled) {
 
         List<TwitterProfile> followings = getFollowingsForProfile(screenName);
-        int totalFollowingsStatusCount = getTotalFollowingsStatusCount(followings);
+        int maxFollowingStatusCount = getMaxFollowingStatusCount(followings);
 
         List<BufferedImage> followingsImages = new ArrayList<>();
         for (TwitterProfile followingProfile : followings) {
@@ -37,7 +36,7 @@ public class TwitterService {
             if (scaled) {
                 profileImage = scaleImageByStatusCount(profileImage,
                         followingProfile.getStatusesCount(),
-                        totalFollowingsStatusCount);
+                        maxFollowingStatusCount);
             }
 
             followingsImages.add(profileImage);
@@ -46,13 +45,15 @@ public class TwitterService {
         return followingsImages;
     }
 
-    private int getTotalFollowingsStatusCount(List<TwitterProfile> followings) {
-        int count = 0;
+    private int getMaxFollowingStatusCount(List<TwitterProfile> followings) {
+        int maxCount = 0;
 
-        for (TwitterProfile profile : followings)
-            count += profile.getStatusesCount();
+        for (TwitterProfile profile : followings) {
+            if (profile.getStatusesCount() > maxCount)
+                maxCount = profile.getStatusesCount();
+        }
 
-        return count;
+        return maxCount;
     }
 
     private BufferedImage scaleImageByStatusCount(BufferedImage image, double statusCount, double totalStatusCount) {
