@@ -19,6 +19,8 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
     <![endif]-->
 
     <!-- Favicon and touch icons -->
@@ -57,10 +59,19 @@
                             </div>
                         </div>
                         <div class="form-bottom">
-                            <form role="form" action="" method="post" class="login-form" onsubmit="return false;">
+                        <div class="se-pre-con"></div>
+                            <form class="form" role="form" action="" method="post" class="login-form" onsubmit="return false;">
                                 <div class="form-group">
                                     <div class="at">@</div>
                                     <div class="input"><input type="text" id="username" name="form-username" placeholder="username..." class="form-username form-control" id="form-username"></div>
+
+                                     <label class="input-check"><input onchange="change_state(this)" type="checkbox" value="big" name="test"/> Big </label>
+                                     <label class="input-check"><input onchange="change_state(this)" type="checkbox" value="small" name="test"/> Small </label>
+                                </div>
+
+                                <div class="form-group">
+                                     <label class="input-check"><input onchange="change_state(this)" type="checkbox" value="big" name="test"/> Big </label>
+                                     <label class="input-check"><input onchange="change_state(this)" type="checkbox" value="small" name="test"/> Small </label>
                                 </div>
 
                                 <button id="go" type="submit" class="btn">Go!</button>

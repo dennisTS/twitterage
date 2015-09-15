@@ -11,8 +11,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-
 @RunWith(JUnitParamsRunner.class)
 public class ImageProcessorParametrizedTest {
 

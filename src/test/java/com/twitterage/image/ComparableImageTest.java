@@ -17,8 +17,8 @@ public class ComparableImageTest {
         bigImage = new BufferedImage(300, 400, BufferedImage.TYPE_INT_RGB);
         smallImage = new BufferedImage(30, 40, BufferedImage.TYPE_INT_RGB);
 
-        bigComparableImage = new ComparableImage(bigImage);
-        smallComparableImage = new ComparableImage(smallImage);
+        bigComparableImage = new ComparableImage(bigImage, 0);
+        smallComparableImage = new ComparableImage(smallImage, 1);
     }
 
     @Test

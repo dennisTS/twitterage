@@ -2,8 +2,11 @@ package com.twitterage.collage;
 
 import com.twitterage.image.ComparableImage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -79,6 +82,11 @@ public class Collage {
         Graphics graphics = extendCanvas(topOffset, bottomOffset, leftOffset, rightOffset);
         graphics.drawImage(buffImage, xCoord, yCoord, null);
 
+//        try {
+//            ImageIO.write(canvas, "PNG", new File("collage" + counter++ + ".png"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         resetCrossings(leftOffset, topOffset);
 
         initCrossings(buffImage, crossing);

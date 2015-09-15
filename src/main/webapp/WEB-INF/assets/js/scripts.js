@@ -30,6 +30,9 @@ jQuery(document).ready(function () {
     });
 
     $('#go').click(function () {
+        $('.form').html("");
+        $('.form-bottom').css("background-color", "#fff");
+
         $.ajax({
             url : 'collage',
             data : {
@@ -46,11 +49,29 @@ jQuery(document).ready(function () {
                 var outputImg = document.createElement('img');
                 outputImg.src = 'data:image/jpg;base64,'+b64Response;
 
-                // append it to your page
-                document.body.appendChild(outputImg);
+                $('.form-bottom').append(outputImg);
             }
         });
         console.log("working!");
+
+        //$(".se-pre-con").fadeOut("slow");
     });
 
+
+    $(window).load(function() {
+    		// Animate loader off screen
+    		$(".se-pre-con").fadeOut("slow");;
+    	});
+
 });
+
+        function change_state(obj){
+            if (obj.checked){
+                //if checkbox is being checked, add a "checked" class
+                obj.parentNode.classList.add("checked");
+            }
+            else{
+                //else remove it
+                obj.parentNode.classList.remove("checked");
+            }
+        }

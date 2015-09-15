@@ -5,32 +5,28 @@ import java.awt.image.BufferedImage;
 public class ComparableImage implements Comparable<ComparableImage> {
 
     private BufferedImage image;
-    private int resolution;
+    private int value;
 
     public ComparableImage() {
 
     }
 
-    public ComparableImage(BufferedImage image) {
+    public ComparableImage(BufferedImage image, int value) {
         this.image = image;
-
-        if (image != null)
-            this.resolution = image.getHeight() * image.getWidth();
-        else
-            this.resolution = 0;
+        this.value = value;
     }
 
     @Override
     public int compareTo(ComparableImage o) {
-        return Integer.compare(this.resolution, o.resolution);
+        return Integer.compare(this.value, o.value);
     }
 
-    public int getResolution() {
-        return resolution;
+    public int getValue() {
+        return value;
     }
 
-    public void setResolution(int resolution) {
-        this.resolution = resolution;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public BufferedImage getImage() {

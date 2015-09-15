@@ -1,5 +1,6 @@
 package com.twitterage.service;
 
+import com.twitterage.image.ComparableImage;
 import com.twitterage.image.ImageProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.CursoredList;
@@ -25,43 +26,19 @@ public class TwitterService {
         this.twitter = twitter;
     }
 
-    public List<BufferedImage> getProfileImagesForUserFollowings(String screenName, boolean scaled) {
+    public List<ComparableImage> getProfileImagesForUserFollowings(String screenName, boolean scaled) {
 
         List<TwitterProfile> followings = getFollowingsForProfile(screenName);
-        int maxFollowingStatusCount = getMaxFollowingStatusCount(followings);
 
-        List<BufferedImage> followingsImages = new ArrayList<>();
+        List<ComparableImage> followingsImages = new ArrayList<>();
         for (TwitterProfile followingProfile : followings) {
-            BufferedImage profileImage = loadImageForProfile(followingProfile);
-
-            if (scaled) {
-                profileImage = scaleImageByStatusCount(profileImage,
-                        followingProfile.getStatusesCount(),
-                        maxFollowingStatusCount);
-            }
+            ComparableImage profileImage = new ComparableImage(loadImageForProfile(followingProfile),
+                                                    followingProfile.getStatusesCount());
 
             followingsImages.add(profileImage);
         }
 
         return followingsImages;
-    }
-
-    private int getMaxFollowingStatusCount(List<TwitterProfile> followings) {
-        int maxCount = 0;
-
-        for (TwitterProfile profile : followings) {
-            if (profile.getStatusesCount() > maxCount)
-                maxCount = profile.getStatusesCount();
-        }
-
-        return maxCount;
-    }
-
-    private BufferedImage scaleImageByStatusCount(BufferedImage image, double statusCount, double totalStatusCount) {
-        if (image == null)
-            return null;
-
-        return ImageProcessor.resizeToPercent(image, statusCount / totalStatusCount);
     }
 
     private BufferedImage loadImageForProfile(TwitterProfile profile) {
