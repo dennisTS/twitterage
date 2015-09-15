@@ -25,11 +25,6 @@ public class CollageCrossingTest {
 
     private CollageCrossing underTest;
 
-    @Before
-    public void setUp() {
-
-    }
-
     @Test
     public void shouldThrowExceptionWhenSettingMoreThanTwoBranches() {
         exception.expect(UnsupportedOperationException.class);

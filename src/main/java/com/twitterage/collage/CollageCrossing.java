@@ -91,16 +91,20 @@ public final class CollageCrossing {
         }
     }
 
-    public static enum CrossingType {
-        TOP_RIGHT, BOTTOM_RIGHT, BOTTOM_LEFT, TOP_LEFT;
+    public enum CrossingType {
+        TOP_RIGHT, BOTTOM_RIGHT, BOTTOM_LEFT, TOP_LEFT
     }
 
-    private static enum Branch {
-        TOP, RIGHT, BOTTOM, LEFT;
+    private enum Branch {
+        TOP, RIGHT, BOTTOM, LEFT
     }
 
     public Point getLocation() {
         return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
     public int getTopBranch() {
@@ -117,5 +121,25 @@ public final class CollageCrossing {
 
     public int getLeftBranch() {
         return leftBranch;
+    }
+
+    public CrossingType getType() {
+        return type;
+    }
+
+    public boolean isTop() {
+        return (type.equals(CrossingType.TOP_LEFT) || type.equals(CrossingType.TOP_RIGHT));
+    }
+
+    public boolean isRight() {
+        return (type.equals(CrossingType.TOP_RIGHT) || type.equals(CrossingType.BOTTOM_RIGHT));
+    }
+
+    public boolean isBottom() {
+        return (type.equals(CrossingType.BOTTOM_RIGHT) || type.equals(CrossingType.BOTTOM_LEFT));
+    }
+
+    public boolean isLeft() {
+        return (type.equals(CrossingType.BOTTOM_LEFT) || type.equals(CrossingType.TOP_LEFT));
     }
 }

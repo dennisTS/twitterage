@@ -2,6 +2,7 @@ package com.twitterage.service;
 
 import com.twitterage.image.ImageProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
@@ -72,11 +73,17 @@ public class TwitterService {
         if(profileImageUrl == null || profileImageUrl.isEmpty())
             return null;
 
-        return ImageProcessor.downloadImage(profileImageUrl);
+        return ImageProcessor.downloadImage(profileImageUrl.replaceAll("_normal", "_400x400"));
     }
 
     private List<TwitterProfile> getFollowingsForProfile(String screenName) {
-        return twitter.friendOperations().getFriends(screenName);
+        CursoredList<TwitterProfile> list = twitter.friendOperations().getFriends(screenName);
+
+        List<TwitterProfile> result = new ArrayList<>(list);
+        if (list.hasNext())
+            result.addAll(twitter.friendOperations().getFriendsInCursor(screenName, list.getNextCursor()));
+
+        return result;
     }
 
     public Twitter getTwitter() {

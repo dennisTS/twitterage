@@ -58,7 +58,7 @@ public final class ImageProcessor {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            ImageIO.write(image, "jpg", baos);
+            ImageIO.write(image, "png", baos);
             baos.flush();
             result = baos.toByteArray();
 

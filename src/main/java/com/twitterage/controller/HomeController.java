@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.awt.image.BufferedImage;
-import org.apache.commons.codec.binary.Base64;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 @Controller
 public class HomeController {
@@ -32,12 +35,16 @@ public class HomeController {
                     @RequestParam("size") String size) {
 
         final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentType(MediaType.IMAGE_PNG);
 
         collageCreator.setUsername(username);
         collageCreator.setSize(new Size(size));
-        final BufferedImage collage = collageCreator.generateCollage(true);
-
+        final BufferedImage collage = collageCreator.generateCollage(false);
+        try {
+            ImageIO.write(collage, "PNG", new File("collage.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         final String responseStr = ImageProcessor.imageToBase64String(collage);
 
         return new ResponseEntity<>(responseStr, headers, HttpStatus.CREATED);

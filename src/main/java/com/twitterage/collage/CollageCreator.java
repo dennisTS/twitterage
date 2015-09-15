@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CollageCreator {
@@ -40,23 +41,17 @@ public class CollageCreator {
         List<ComparableImage> comparableImages = convertToComparableImages(images);
         Collections.sort(comparableImages);
 
-        BufferedImage collage = generateCollage(comparableImages);
-
-        return images.get(0);
+        return generateCollage(comparableImages);
     }
 
     private BufferedImage generateCollage(List<ComparableImage> comparableImages) {
         Collage collage = new Collage(comparableImages);
 
-
-        return null;
+        return collage.getCollageAsImage();
     }
 
     private List<ComparableImage> convertToComparableImages(List<BufferedImage> images) {
-        List<ComparableImage> resultList = new ArrayList<>();
-
-        for (BufferedImage image : images)
-            resultList.add(new ComparableImage(image));
+        List<ComparableImage> resultList = images.stream().map(ComparableImage::new).collect(Collectors.toList());
 
         return resultList;
     }
